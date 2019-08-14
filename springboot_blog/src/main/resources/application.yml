@@ -1,0 +1,24 @@
+# JSP配置    禁止使用tab 
+spring:
+  mvc:
+    view:
+      prefix: WEB-INF/jsp/
+      suffix: .jsp
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/blog
+    username: root
+    password: a
+    driver-class-name: com.mysql.jdbc.Driver
+    
+    #邮件服务配置
+  mail:
+    #邮箱服务器地址
+    host: smtp.qq.com
+    #用户名
+    username: 2836765140@qq.com
+    # 设置密码，该处的密码是QQ邮箱开启SMTP的授权码而非QQ密码
+    password: 
+    #默认字符集编码
+server:
+  port: 80  

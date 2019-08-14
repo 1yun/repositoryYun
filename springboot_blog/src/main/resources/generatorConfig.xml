@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+<generatorConfiguration>  
+   
+    <context id="DB2Tables" targetRuntime="MyBatis3">  
+        
+        <!-- 数据库链接URL、用户名、密码 -->  
+         <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/my_db?characterEncoding=utf8" userId="root" password="123456"> -->   
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+        connectionURL="jdbc:mysql://localhost:3306/blog" 
+        userId="root" 
+        password="a"> 
+        </jdbcConnection>  
+        
+        <!-- 生成实体类配置 -->  
+        
+        <javaModelGenerator targetPackage="com.yc.blog.bean" targetProject="src\main\java">  
+            <property name="enableSubPackages" value="true" />  
+            <property name="trimStrings" value="true" />  
+        </javaModelGenerator>  
+        <!-- 生成的映射文件包名和位置 -->  
+       
+        <sqlMapGenerator targetPackage="com.yc.blog.dao" targetProject="src\main\java">  
+            <property name="enableSubPackages" value="true" />  
+        </sqlMapGenerator>  
+        
+        <!-- 生成接口文件配置     注解 type="ANNOTATEDMAPPER"  -->  
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yc.blog.dao" targetProject="src\main\java">  
+            <property name="enableSubPackages" value="true" />  
+        </javaClientGenerator>  
+       
+        <!-- 使用%表示所有表      MySQL 只要tableName -->  
+        <!--oracle的配置方法 <table schema="scott" tableName="%" catalog="orcl" >
+        </table> -->
+         <table tableName="%" >
+         <!-- 插入时  会返回主键 -->
+         	<generatedKey column="id" sqlStatement="MYSQL" identity="true"/>
+        </table>
+      
+    </context>  
+    
+</generatorConfiguration>
