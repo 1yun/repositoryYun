@@ -16,6 +16,7 @@ public interface SaleOrderMapper {
 	//  一对多查询  ordeLines
 	@Select("select * from sale_order where odr_id=#{id}")
 	@Results(id="order_line",value={
+			@Result(column="odr_id",property="odrId"),
 			@Result(column="odr_id",property="ordeLines",many=@Many(fetchType=FetchType.LAZY,
 			select="com.yc.sale.dao.SaleOrderLineMapper.selectByOrderId"))
 	})

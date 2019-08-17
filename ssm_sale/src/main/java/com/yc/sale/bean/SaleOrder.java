@@ -3,6 +3,9 @@ package com.yc.sale.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = {"handler"})
 public class SaleOrder implements Serializable{
     
 	//一个订单可能有多个订单详细信息  1对多

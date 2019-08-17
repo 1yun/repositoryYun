@@ -20,7 +20,16 @@
     <result column="readCnt" jdbcType="INTEGER" property="readcnt" />
     <result column="agreeCnt" jdbcType="INTEGER" property="agreecnt" />
     <result column="commCnt" jdbcType="INTEGER" property="commcnt" />
+   
+    <!-- 文章 与分类 关联查询  一个文章对应一个分类 -->
+    
+    <association property="category" column="categoryId" fetchType="lazy"
+    select="com.yc.blog.dao.CategoryMapper.selectByPrimaryKey">
+    </association>
+    
+    
   </resultMap>
+  
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yc.blog.bean.Article">
     <!--
       WARNING - @mbg.generated

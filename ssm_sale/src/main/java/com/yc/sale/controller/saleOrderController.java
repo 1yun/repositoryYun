@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yc.sale.bean.CusCustomer;
 import com.yc.sale.bean.SaleOrder;
+import com.yc.sale.bean.SaleOrderLine;
+import com.yc.sale.bean.SaleProduct;
+import com.yc.saleBiz.ProductBiz;
 import com.yc.saleBiz.saleBiz;
 
-import flexjson.JSONSerializer;
 
 @Controller
 public class saleOrderController {
 
 	@Resource
 	private saleBiz sb;
-	
+	@Resource
+	private ProductBiz pb;
 	
 	//点击保存 订单
 	@PostMapping("saleOrder_save")
@@ -45,13 +48,36 @@ public class saleOrderController {
 	//odr_id=8
 	@RequestMapping("saleOrder_findOrderWithDetail")
 	@ResponseBody
-	public String finOrderDetail(SaleOrder order){
+	public SaleOrder finOrderDetail(SaleOrder order){
 		System.out.println(order.getOdrId()+"----------------------");
 		//一对多查询
-		SaleOrder saleOrder = sb.queryManyByOid(1);
+		SaleOrder saleOrder = sb.queryManyByOid(order.getOdrId());
 		System.out.println(saleOrder);
 		
-		return   "";
+		return   saleOrder;
 	}
 	
+	//odlId 进行删除
+	@RequestMapping("saleOrder_delOrderLine")
+	@ResponseBody
+	public String deleteOrderline(SaleOrderLine sol){
+		sb.deleteOrderLine(sol.getOdlId());
+		return "{\"flag\":true}";
+	}
+	
+	
+	//查出所有的商品saleProduct_findAll
+	@RequestMapping("saleProduct_findAll")
+	@ResponseBody
+	public List<SaleProduct> Product_findAll(){
+		return pb.queryProductAll();
+	}
+	
+	//添加订单项 saleOrder_saveOrderLine
+	@RequestMapping("saleOrder_saveOrderLine")
+	@ResponseBody
+	public String addOrderLine(SaleOrderLine sol){
+		 sb.addProduct(sol);
+		 return "{\"flag\":true}";
+	}
 }

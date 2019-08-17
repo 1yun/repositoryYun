@@ -10,7 +10,20 @@ public class Article {
      *
      * @mbg.generated Wed Aug 14 20:07:17 CST 2019
      */
-    private Integer id;
+	//（在文章角度说）文章:分类是 1 1
+	private Category category;
+	
+    public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	
+	
+	private Integer id;
 
     /**
      *

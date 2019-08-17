@@ -55,4 +55,14 @@ public class saleBizTest {
 		System.out.println(order);
 		
 	}
+	
+	@Test
+	public void testadd(){
+		SaleOrderLine sol=new SaleOrderLine();
+		sol.setOdlOrderId(2);
+		sol.setOdlProductCount(1);
+		sol.setOdlProductName("GPS");
+		sol.setOdlProductPrice(Double.valueOf(3300+""));
+		sb.addProduct(sol);
+	}
 }
