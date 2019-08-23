@@ -2,6 +2,10 @@ package com.yc.blog.bean;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 public class Comment {
     /**
      *
@@ -19,6 +23,7 @@ public class Comment {
      *
      * @mbg.generated Wed Aug 14 20:07:17 CST 2019
      */
+  
     private Integer articleid;
 
     /**
@@ -28,6 +33,8 @@ public class Comment {
      *
      * @mbg.generated Wed Aug 14 20:07:17 CST 2019
      */
+    @NotEmpty(message="内容不能为空")
+    @Length(min=2,max=1000,message="内容必须要在2-1000个内容以内")
     private String content;
 
     /**

@@ -100,11 +100,11 @@ $("#gotop").click(function () {
  
 //图片延时加载
 $("img.thumb").lazyload({
-    placeholder: "/Home/images/occupying.png",
+    placeholder: "/images/occupying.png",
     effect: "fadeIn"
 });
 $(".single .content img").lazyload({
-    placeholder: "/Home/images/occupying.png",
+    placeholder: "/images/occupying.png",
     effect: "fadeIn"
 });
  
@@ -117,25 +117,10 @@ document.body.onselectstart = document.body.ondrag = function () {
 $('[data-toggle="tooltip"]').tooltip();
  
  
-//无限滚动反翻页
-jQuery.ias({
-	history: false,
-	container : '.content',
-	item: '.excerpt',
-	pagination: '.pagination',
-	next: '.next-page a',
-	trigger: '查看更多',
-	loader: '<div class="pagination-loading"><img src="/Home/images/loading.gif" /></div>',
-	triggerPageThreshold: 5,
-	onRenderComplete: function() {
-		$('.excerpt .thumb').lazyload({
-			placeholder: '/Home/images/occupying.png',
-			threshold: 400
-		});
-		$('.excerpt img').attr('draggable','false');
-		$('.excerpt a').attr('draggable','false');
-	}
-});
+
+
+
+
  
 //鼠标滚动超出侧边栏高度绝对定位
 $(window).scroll(function () {
@@ -219,17 +204,56 @@ $(function(){
 		commentButton.attr('disabled',true);
 		commentButton.addClass('disabled');
 		promptText.text('正在提交...');
-		$.ajax({   
+		$.ajax({ 
+			
 			type:"POST",
-			url:"test.php?id=" + articleid,
-			//url:"/Article/comment/id/" + articleid,   
-			data:"commentContent=" + replace_em(commentContent.val()),   
+			
+			url:"comment?articleid=" + articleid,
+			//文章内容
+			data:"content=" + replace_em(commentContent.val()),   
 			cache:false, //不缓存此页面  
 			success:function(data){
-				alert(data);
-				promptText.text('评论成功!');
-			    commentContent.val(null);
-				$(".commentlist").fadeIn(300);
+				console.log(data);
+				//-1表示验证失败  可能有多个验证失败的信息
+				if(data.code==-1){
+					var msgs='';
+					for(var i=0;i<data.data.length;i++){
+						msgs+=data.data[i].defaultMessage+"\n";
+					}
+					alert(msgs);
+				}else{
+					alert(data.msg);
+				}
+				
+				promptText.text(data.msg);
+				if(data.code==1){
+					var dataIndex=$(".comment-f").last().attr("data-index");
+					var index= dataIndex==null?0:parseInt(dataIndex);
+					
+					//评论成功  更新评论列表
+					var html=
+						"<ol class='commentlist'>" +
+						"          <li class='comment-content'><span class='comment-f' data-index='???'>#???</span>" + 
+						"            <div class='comment-avatar'><img class='avatar' src='images/icon/icon.png' alt='' /></div>" + 
+						"            <div class='comment-main'>" + 
+						"              <p>来自<span class='address'>河南郑州</span>的用户" + 
+						"              <span class='time'>" + 
+						"              (????)</span>" + 
+						"              <br />" + 
+						"        ????" + 
+						"             </p>" + 
+						"            </div>" + 
+						"          </li>" + 
+						"        </ol>";
+						html=html.replace("???",index);
+						html=html.replace("???",index);
+						html=html.replace("????",data.data.createtime);
+						html=html.replace("????",data.data.content);
+					$('.quotes').before(html);
+				}
+				
+				commentButton.val(null);
+			    $(".commentlist").fadeIn(300);
 				/*$(".commentlist").append();*/
 				commentButton.attr('disabled',false);
 				commentButton.removeClass('disabled');
@@ -242,9 +266,10 @@ $(function(){
 });
 //对文章内容进行替换
 function replace_em(str){
+	// /正则  /   g 全局
 	str = str.replace(/\</g,'&lt;');
 	str = str.replace(/\>/g,'&gt;');
-	str = str.replace(/\[em_([0-9]*)\]/g,'<img src="/Home/images/arclist/$1.gif" border="0" />');
+	str = str.replace(/\[em_([0-9]*)\]/g,'<img src="/images/arclist/$1.gif" border="0" />');
 	return str;
 }
 

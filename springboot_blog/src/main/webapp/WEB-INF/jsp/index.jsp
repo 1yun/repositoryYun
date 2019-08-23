@@ -133,6 +133,42 @@
 </section>
 
 <jsp:include page="common/footer.jsp"></jsp:include>
+<script src="js/jquery.ias.js"></script>   
+<!-- 文章的无线滚动 -->
+<script type="text/javascript">
+//无限滚动反翻页
+var ias=jQuery.ias({
+	history: false,
+	container : '.content',
+	item: '.excerpt',
+	pagination: '.pagination',
+	next: '.next-page a',
+	/*trigger: '查看更多',
+	loader: '<div class="pagination-loading"><img src="/images/loading.gif" /></div>',
+	triggerPageThreshold: 5*/
+	/*onRenderComplete: function() {
+		$('.excerpt .thumb').lazyload({
+			placeholder: '/images/occupying.png',
+			threshold: 400
+		});
+		$('.excerpt img').attr('draggable','false');
+		$('.excerpt a').attr('draggable','false');
+	}*/
+});
+var page=1;
+ias.on('load',function(event){
+	event.ajaxOptions.data={page:++page};//就相当于与ajax的参数 data
+})
+ias.extension(new IASSpinnerExtension({
+	src:'/images/loading.gif'//加载等待显示的图片
+}))
 
+ias.extension(new IASTriggerExtension({
+	text:'查看更多',  //鼠标点击后加载提示的文字
+	offset:2     //到第几页后  开始鼠标点击加载
+}))
+
+
+</script>
 </body>
 </html>

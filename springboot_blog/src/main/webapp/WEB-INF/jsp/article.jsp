@@ -96,28 +96,52 @@
             <div class="comment-title"><img class="avatar" src="images/icon/icon.png" alt="" /></div>
             <div class="comment-box">
               <textarea placeholder="您的评论可以一针见血" name="comment" id="comment-textarea" cols="100%" rows="3" tabindex="1" ></textarea>
-              <div class="comment-ctrl"> <span class="emotion"><img src="images/face/5.png" width="20" height="20" alt="" />表情</span>
-                <div class="comment-prompt"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text"></span> </div>
-                <input type="hidden" value="1" class="articleid" />
-                <button type="submit" name="comment-submit" id="comment-submit" tabindex="5" articleid="1">评论</button>
-              </div>
-            </div>
+								<div class="comment-ctrl">
+									<span class="emotion"><img src="images/face/5.png"
+										width="20" height="20" alt="" />表情</span>
+									<div class="comment-prompt">
+										<i class="fa fa-spin fa-circle-o-notch"></i> <span
+											class="comment-prompt-text"></span>
+									</div>
+									<input type="hidden" value="${article.id}" class="articleid" />
+									<button type="button" name="comment-submit" id="comment-submit"
+										tabindex="5" articleid="1">评论</button>
+								</div>
+							</div>
           </div>
         </form>
       </div>
       <div id="postcomments">
+      <!-- 文章的评论   
+      varStatus属性可以方便我们实现一些与行数相关
+      current：当前这次迭代的（集合中的）项
+		index：当前这次迭代从 0 开始的迭代计数
+		count：当前这次迭代从 1 开始的迭代计数
+		first：用来表明当前这轮迭代是否为第一次迭代的标志，返回true/false
+		last：用来表明当前这轮迭代是否为最后一次迭代的标志,返回true/false
+      
+      -->
+      <c:forEach  items="${article.comments}" var="c" varStatus="vs">
         <ol class="commentlist">
-          <li class="comment-content"><span class="comment-f">#1</span>
+          <li class="comment-content"><span class="comment-f" data-index="${vs.index+1}">${vs.index+1}</span>
             <div class="comment-avatar"><img class="avatar" src="images/icon/icon.png" alt="" /></div>
             <div class="comment-main">
-              <p>来自<span class="address">河南郑州</span>的用户<span class="time">(2016-01-06)</span><br />
-                这是匿名评论的内容这是匿名评论的内容，这是匿名评论的内容这是匿名评论的内容这是匿名评论的内容这是匿名评论的内容这是匿名评论的内容这是匿名评论的内容。</p>
+              <p>来自<span class="address">河南郑州</span>的用户
+              <span class="time">
+              (<fmt:formatDate value="${c.createtime}"  pattern="yyyy-MM-dd HH:MM:ss"/>)</span>
+              <br />
+				${c.content}
+	           </p>
             </div>
           </li>
         </ol>
         
-        <div class="quotes"><span class="disabled">首页</span><span class="disabled">上一页</span><a class="current">1</a><a href="">2</a><span class="disabled">下一页</span><span class="disabled">尾页</span></div>
-      </div>
+        </c:forEach>
+
+					<div class="quotes" style="display:none">
+						<a class="commPage" href="article">下一页</a>
+					</div>
+				</div>
     </div>
   </div>
   <aside class="sidebar">
@@ -184,15 +208,54 @@
 </section>
 
 <jsp:include page="common/footer.jsp"></jsp:include>
-<!-- <script src="js/jquery.qqFace.js"></script> 
+
+<script src="js/jquery.ias.js"></script> 
+
+<script type="text/javascript">
+//无限滚动反翻页  评论
+ ias=jQuery.ias({
+	history: false,
+	container : '#postcomments',
+	item: '.commentlist',
+	pagination: '.quotes',
+	next: '.commPage'
+	/*trigger: '查看更多',
+	loader: '<div class="pagination-loading"><img src="/images/loading.gif" /></div>',
+	triggerPageThreshold: 5*/
+	/*onRenderComplete: function() {
+		$('.excerpt .thumb').lazyload({
+			placeholder: '/images/occupying.png',
+			threshold: 400
+		});
+		$('.excerpt img').attr('draggable','false');
+		$('.excerpt a').attr('draggable','false');
+	}*/
+});
+ page=1;
+ias.on('load',function(event){
+	event.ajaxOptions.data={page:++page,id:${article.id}};//就相当于与ajax的参数 data
+})
+ias.extension(new IASSpinnerExtension({
+	src:'/images/loading.gif'//加载等待显示的图片
+}))
+
+ias.extension(new IASTriggerExtension({
+	text:'查看更多',  //鼠标点击后加载提示的文字
+	offset:2     //到第几页后  开始鼠标点击加载
+}))
+
+
+</script>
+
+ <script src="js/jquery.qqFace.js"></script> 
 <script type="text/javascript">
 $(function(){
 	$('.emotion').qqFace({
 		id : 'facebox', 
 		assign:'comment-textarea', 
-		path:'/Home/images/arclist/'	//表情存放的路径
+		path:'/images/arclist/'	//表情存放的路径
 	});
  });   
-</script> -->
+</script> 
 </body>
 </html>

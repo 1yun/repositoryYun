@@ -26,6 +26,12 @@
     <association property="category" column="categoryId" fetchType="lazy"
     select="com.yc.blog.dao.CategoryMapper.selectByPrimaryKey">
     </association>
+    <!-- 一对多加载 -->
+    <collection property="comments" column="id" fetchType="lazy" 
+    select="selectCommentByArticleid">
+    	
+    	
+    </collection>
     
     
   </resultMap>
@@ -38,6 +44,11 @@
     -->
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
+  
+  <select id="selectCommentByArticleid" 
+  resultMap="com.yc.blog.dao.CommentMapper.BaseResultMap">
+  			select * from comment where articleid=#{aid}
+  </select>
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbg.generated

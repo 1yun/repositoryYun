@@ -3,12 +3,18 @@ package com.yc.blog;
 
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.yc.blog.web.LoginInterceptor;
+
 /**
  * 在某个类上使用@Component注解，表明当需要创建类时，这个被注解的类是一个候选类。就像是举手。
 	@ComponentScan 用于扫描指定包下的类。就像看都有哪些举手了。
@@ -26,13 +32,19 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @Controller
 @MapperScan("com.yc")
-public class Springboot814Application {
+public class Springboot814Application implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(Springboot814Application.class, args);
 	}
+
 	@GetMapping("hello")
 	public String hello(){
 		return "hello";
 	}
+
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/toedit","/comment");
+	}
+	
 }

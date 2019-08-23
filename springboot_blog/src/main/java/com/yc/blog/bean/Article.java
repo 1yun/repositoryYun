@@ -1,6 +1,7 @@
 package com.yc.blog.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class Article {
     /**
@@ -10,6 +11,20 @@ public class Article {
      *
      * @mbg.generated Wed Aug 14 20:07:17 CST 2019
      */
+	//文章评论
+	private List<Comment> comments;
+	
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+
+
 	//（在文章角度说）文章:分类是 1 1
 	private Category category;
 	

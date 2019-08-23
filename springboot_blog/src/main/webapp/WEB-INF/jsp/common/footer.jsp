@@ -73,19 +73,30 @@
 		var param={name:name,password:pwd}
 		//匿名函数
 		var callback=function(result){
-			if(result.code==1){
+			console.log(result)
+			if(result.code==2){
 				$(".login").text("欢迎："+result.data.cnName);
 				//抑制登录窗口下次跳出
 				$(".login").attr("data-target","");
 				//隐藏登录窗口
 				$("#loginModal").modal('hide');
-				
 			}else{
 				alert(result.msg);
 			}
 		}
 		$.post(url,param,callback)
 	}
+	<%if(request.getParameter("login")!=null){%>
+		$(function(){
+			//显示登陆窗口
+			$("#loginModal").modal('show');
+
+		})
+	<%}%>
+	
+	
+	
+	
 </script>
 
 
@@ -103,5 +114,5 @@
   </ul>
 </div>
 <script src="js/bootstrap.min.js"></script> 
-<script src="js/jquery.ias.js"></script> 
+
 <script src="js/scripts.js"></script>

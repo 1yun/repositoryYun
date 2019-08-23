@@ -7,16 +7,26 @@ public class Result {
 	private int Code;
 	private String msg;
 	private Object data;
+	private resultEnum resultEnum;
+	
+	
 	public Result(int code, String msg) {
 		super();
 		Code = code;
 		this.msg = msg;
 	}
-	public Result(int code, String msg, Object data) {
-		super();
-		Code = code;
-		this.msg = msg;
-		this.data = data;
+
+	//失败  或者异常
+	public Result(resultEnum resultEnum) {
+		this.Code=resultEnum.getFlag();
+		this.msg=resultEnum.getInfo();
+	}
+	
+	//成功 
+	public Result(resultEnum resultEnum,Object data) {
+		this.Code=resultEnum.getFlag();
+		this.msg=resultEnum.getInfo();
+		this.data=data;
 	}
 	public int getCode() {
 		return Code;
@@ -36,5 +46,13 @@ public class Result {
 	public void setData(Object data) {
 		this.data = data;
 	}
+	public resultEnum getResultEnum() {
+		return resultEnum;
+	}
+	public void setResultEnum(resultEnum resultEnum) {
+		this.resultEnum = resultEnum;
+	}
+	
+	
 	
 }
