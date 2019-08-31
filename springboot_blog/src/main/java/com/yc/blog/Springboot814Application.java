@@ -38,11 +38,6 @@ public class Springboot814Application implements WebMvcConfigurer{
 		SpringApplication.run(Springboot814Application.class, args);
 	}
 
-	@GetMapping("hello")
-	public String hello(){
-		return "hello";
-	}
-
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/toedit","/comment");
 	}
