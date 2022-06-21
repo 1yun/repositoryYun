@@ -63,7 +63,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<!-- 默认是高版本  需要指定版本号 -->
-			<version>5.1.47</version>
+			<version>8.0.28</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- 邮箱依赖 -->
@@ -108,7 +108,7 @@
 					<dependency>
 						<groupId>mysql</groupId>
 						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.47</version>
+						<version>8.0.28</version>
 					</dependency>
 				</dependencies>
 			</plugin>
